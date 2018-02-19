@@ -47,6 +47,7 @@ Rails.application.routes.draw do
   #     post 'toggle'
   #   end
   #   resources :posts, concerns: :toggleable
+
   #   resources :photos, concerns: :toggleable
 
   # Example resource route within a namespace:
