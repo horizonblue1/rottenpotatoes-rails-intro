@@ -13,18 +13,27 @@ class MoviesController < ApplicationController
   def index
    @movies = Movie.all
    
-   @sort_column = params[:sort_by]
-   @ratings = params[:ratings]
+   @sort_column = params[:sort_by] || session[:sort_by]
+   @ratings = params[:ratings] || session[:ratings]
    
    @all_ratings = Movie.ratings
    
    if(@sort_column)
+     session[:sort_by] = @sort_column
      @movies = Movie.order(@sort_column.to_sym)
    end
    
    if(@ratings)
+     session[:ratings] = @ratings
      @movies = Movie.where(rating: @ratings.keys)
    end
+   
+   if params[:sort_by] != session[:sort_by] or params[:ratings] != session[:ratings]
+     session[:sort_by] = @sort_column
+     session[:ratings] = @ratings
+     redirect_to(sort_by: @sort_column, ratings: @ratings) and return
+   end
+    
   end
 
   def new
